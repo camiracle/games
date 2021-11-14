@@ -1,0 +1,12 @@
+body {
+  font-family: verdana;
+}
+
+td {
+  padding: 5px;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
