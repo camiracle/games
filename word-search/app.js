@@ -17,8 +17,10 @@ function init() {
     'lizard',
     'rhino',
     'hippopotamus',
-    'connor',
-    'luna'
+    'parrot',
+    'tucan',
+    'cobra',
+    'iguana'
   ]
 
   let gridSizeY = 20;
@@ -34,7 +36,7 @@ function init() {
 
   // sort word list by largest word first
   wordList
-    .sort((a, b) => a.length > b.length ? -1 : 1)
+    .sort((a, b) => a.length > b.length ? 1 : -1)
     .forEach(word => {
       console.log(word);
       placeWord(word, puzzleGrid);
@@ -122,18 +124,12 @@ function isLetterPlacementValid(letter, x, y, puzzleGrid) {
 }
 
 function renderPuzzle(puzzleGrid, wordList) {
-  let wordListHtml = wordList
-    .map(word => `<li>${word}</li>`)
-    .join('');
-
-  document.getElementById('word-list').innerHTML = wordListHtml;
-
   let puzzleContainerHtml = '<table>';
 
   puzzleGrid.forEach(row => {
     puzzleContainerHtml += '<tr>';
     row.forEach(letter => {
-      puzzleContainerHtml += `<td>${letter || getRandomLetter()}</td>`;
+      puzzleContainerHtml += `<td>${letter ? `<span class="placed-word">${letter}</span>` : `<span class="random-letter">${getRandomLetter()}</span>`}</td>`;
     });
     puzzleContainerHtml += '</tr>';
   });
@@ -141,9 +137,45 @@ function renderPuzzle(puzzleGrid, wordList) {
   
   const puzzleContainerElement = document.getElementById('puzzle-container');
   puzzleContainerElement.innerHTML = puzzleContainerHtml;
+
+  let wordListHtml = JSON.parse(JSON.stringify(wordList))
+    .sort((a,b) => a > b ? 1 : -1)
+    .map(word => `<li>${word}</li>`)
+    .join('');
+
+  document.getElementById('word-list').innerHTML = wordListHtml;
 }
 
 function getRandomLetter() {
   const letterNumber = Math.ceil(Math.random() * 26) + 96;
   return String.fromCharCode(letterNumber);
+}
+
+let isShowAnswers = false;
+
+function toggleShowAnswers() {
+  []
+    .slice
+    .call(document.getElementsByClassName('placed-word'))
+    .forEach(cellElement => {
+      if (isShowAnswers) {
+        cellElement.classList.remove('answer');
+      } else {
+        cellElement.classList.add('answer');
+      }      
+    });
+
+  []
+    .slice
+    .call(document.getElementsByClassName('random-letter'))
+    .forEach(cellElement => {
+      if (isShowAnswers) {
+        cellElement.classList.remove('light');
+      } else {
+        cellElement.classList.add('light');
+      }      
+    });
+
+  document.getElementById('show-answers-button').innerHTML = isShowAnswers ? 'Show Answers' : 'Hide Answers';
+  isShowAnswers = !isShowAnswers;  
 }

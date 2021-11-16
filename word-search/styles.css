@@ -2,11 +2,41 @@ body {
   font-family: verdana;
 }
 
+.main-container {
+  max-width: 800px;    
+}
+
+.puzzle-container {
+  margin: 0 auto;
+}
+
+.answer {  
+  font-weight: bold;
+  color: blue;
+}
+
+.light {    
+  color: lightgray;
+}
+
 td {
   padding: 5px;
 }
 
-ul {
+ul {  
+  -moz-column-count: 4;
+  -moz-column-gap: 20px;
+  -webkit-column-count: 4;
+  -webkit-column-gap: 20px;
+  text-align: center;
+  column-count: 4;
+  column-gap: 20px;
   list-style: none;
   padding: 0;
+}
+
+@media print {
+  button {
+    display: none;
+  }
 }
